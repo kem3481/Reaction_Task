@@ -10,9 +10,9 @@ public class VerifyPositions : MonoBehaviour
     private GameObject head;
     private GameObject headStart;
     private GameObject unlitHead;
-    public GameObject litHead;
+    private GameObject litHead;
     private GameObject unlitHand;
-    public GameObject litHand;
+    private GameObject litHand;
     private GameObject beginText;
     private GameObject headColumn;
     private GameObject handSphere;

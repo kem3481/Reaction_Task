@@ -8,11 +8,18 @@ using System.Threading;
 
 public class Trial : MonoBehaviour
 {
+    public GameObject playField;
+    public GameObject neutralTarget;
+    public GameObject litTarget;
+    public GameObject mainCanvas;
+    public GameObject endCanvas;
+
     private GameObject fixation;
     private GameObject rightController;
     private PlayerReady PlayerReady;
-    private GameObject resetText;
-
+    private VerifyPositions verifyPositions;
+    private float Timer = 0f;
+    public int count = 0;
     public GameObject Test;
 
     // Vive Control GameObjects
@@ -25,50 +32,67 @@ public class Trial : MonoBehaviour
         rightController = GameObject.FindGameObjectWithTag("RightController");
 
         Test.SetActive(false);
-
-        //Accessing variables from PlayerReady Script
-        PlayerReady = GetComponent<PlayerReady>();
-        PlayerReady.litTarget.SetActive(false);
+        
+        litTarget.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (PlayerReady.neutralTarget.activeSelf == true && Test.activeSelf == false)
+        if (neutralTarget.activeSelf == true && Test.activeSelf == false)
         {
             StartCoroutine("ChangeDelay");
         }
 
-        if (rightController.transform.localPosition.x > -.05 &&
-            rightController.transform.localPosition.x <  .05 &&
-            rightController.transform.localPosition.z > -.01 &&
-            rightController.transform.localPosition.z <  .01 &&
-            rightController.transform.localPosition.y > 1.20 &&
-            rightController.transform.localPosition.y < 1.30)
+        if (count > 10)
         {
-            PlayerReady.litTarget.SetActive(false);
-            PlayerReady.neutralTarget.SetActive(false);
-            fixation.SetActive(true);
-            Test.SetActive(true);
+            playField.SetActive(false);
+            neutralTarget.SetActive(false);
+            litTarget.SetActive(false);
+            mainCanvas.SetActive(false);
+            endCanvas.SetActive(true);
         }
- 
+
+        bool GetSqueeze()
+        {
+            return squeezeAction.GetStateDown(handType);
+        }
+
+        if (GetSqueeze())
+        {
+            count++;
+        }
     }
 
-    /*private void OnTriggerEnter(Collider other)
+IEnumerator ReactionTime()
+    {
+        while (PlayerReady.litTarget.activeSelf == true)
+        {
+            yield return new WaitForSecondsRealtime(1f);
+            Timer = Timer + 1f;
+        }
+
+        if (PlayerReady.litTarget.activeSelf == false && Timer>0)
+        {
+            print(Timer);
+        }
+    }
+    
+    void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("LitTarget"))
         {
-            PlayerReady.litTarget.SetActive(false);
-            PlayerReady.neutralTarget.SetActive(true);
+            litTarget.SetActive(false);
+            fixation.SetActive(true);
             Test.SetActive(true);
         }
-    }*/
+    }
 
     IEnumerator ChangeDelay()
     {
-        yield return new WaitForSecondsRealtime(3f);
-        PlayerReady.neutralTarget.SetActive(false);
-        PlayerReady.litTarget.SetActive(true);
+        yield return new WaitForSecondsRealtime(1f);
+        neutralTarget.SetActive(false);
+        litTarget.SetActive(true);
         fixation.SetActive(false);
     }
 }

@@ -49,14 +49,16 @@ public class PlayerReady : MonoBehaviour
         }
 
         // If the trigger is pulled, get rid of all the positioning objects and display countdown
-        if (GetSqueeze())
-        {
-            headColumn.SetActive(false);
-            handSphere.SetActive(false);
-            beginText.SetActive(false);
-            GO.SetActive(true);
+        if (neutralTarget.activeSelf == false && litTarget.activeSelf == false)
+            { if (GetSqueeze())
+            {
+                headColumn.SetActive(false);
+                handSphere.SetActive(false);
+                beginText.SetActive(false);
+                GO.SetActive(true);
 
-            StartCoroutine("LoseTime");
+                StartCoroutine("LoseTime");
+            }
         }
 
         // Using intermediate game objects to delay start of countdown
