@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 279c934ca682b60418344ad8f8eb73e7
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - LightPrefab_unlit: {fileID: 3148719073348526766, guid: d486b69523bf9cd4db8a68211f5dee0a,
+      type: 3}
+  - LightPrefab_lit: {fileID: 3148719073348526766, guid: 59cf65b429bf9074a93ac01654beb4b5,
+      type: 3}
+  - OrientationLight_lit: {fileID: 6762974359613559825, guid: 94afb3872a1e79940b5af55ea36a73e6,
+      type: 3}
+  - OrientationLight_unlit: {fileID: 6762974359613559825, guid: 5a37034744479174ba318b8d20287aed,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
