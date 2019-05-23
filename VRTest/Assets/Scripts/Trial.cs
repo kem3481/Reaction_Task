@@ -13,14 +13,19 @@ public class Trial : MonoBehaviour
     public GameObject litTarget;
     public GameObject mainCanvas;
     public GameObject endCanvas;
+    public float x_position;
+    public float y_position;
 
     private GameObject fixation;
     private GameObject rightController;
-    private PlayerReady PlayerReady;
-    private VerifyPositions verifyPositions;
-    private float Timer = 0f;
+    private int ProcessingTime;
+    public float CollisionPosition_x;
+    public float CollisionPosition_y;
+    private int CollisionTime;
+    private int Timer = 0;
     public int count = 0;
     public GameObject Test;
+    public GameObject Data;
 
     // Vive Control GameObjects
     public SteamVR_Input_Sources handType;
@@ -32,19 +37,21 @@ public class Trial : MonoBehaviour
         rightController = GameObject.FindGameObjectWithTag("RightController");
 
         Test.SetActive(false);
-        
+        Data.SetActive(false);
+
         litTarget.SetActive(false);
+        endCanvas.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (neutralTarget.activeSelf == true && Test.activeSelf == false)
+        if (neutralTarget.activeSelf == true && Test.activeSelf == false && playField.activeSelf == true)
         {
             StartCoroutine("ChangeDelay");
         }
 
-        if (count > 10)
+        if (count > 2)
         {
             playField.SetActive(false);
             neutralTarget.SetActive(false);
@@ -61,31 +68,45 @@ public class Trial : MonoBehaviour
         if (GetSqueeze())
         {
             count++;
+            Data.SetActive(false);
+            Timer = 0;
         }
+
     }
 
-IEnumerator ReactionTime()
+    private void OnTriggerExit(Collider other)
     {
-        while (PlayerReady.litTarget.activeSelf == true)
+        if (other.gameObject.CompareTag("Invisible"))
         {
-            yield return new WaitForSecondsRealtime(1f);
-            Timer = Timer + 1f;
-        }
-
-        if (PlayerReady.litTarget.activeSelf == false && Timer>0)
-        {
-            print(Timer);
+            print("Processing Time: " + Timer);
+            ProcessingTime = Timer;
         }
     }
-    
+
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("LitTarget"))
         {
+            neutralTarget.SetActive(true);
             litTarget.SetActive(false);
             fixation.SetActive(true);
             Test.SetActive(true);
+            StartCoroutine("DataCollection");
         }
+    }
+
+    IEnumerator DataCollection()
+    {
+        if (Data.activeSelf == false)
+        {
+            CollisionPosition_x = rightController.transform.position.x;
+            CollisionPosition_y = rightController.transform.position.y;
+            print("Collision Position: " + CollisionPosition_x + ", " + CollisionPosition_y);
+            print("Collision Time: " + CollisionTime);
+            CollisionTime = Timer;
+        }
+        yield return new WaitForEndOfFrame();
+        Data.SetActive(true);
     }
 
     IEnumerator ChangeDelay()
@@ -94,5 +115,15 @@ IEnumerator ReactionTime()
         neutralTarget.SetActive(false);
         litTarget.SetActive(true);
         fixation.SetActive(false);
+        StartCoroutine("Timers");
+    }
+
+    IEnumerator Timers()
+    {
+        if (litTarget.activeSelf == true)
+        {
+            yield return new WaitForSecondsRealtime(.01f);
+            Timer++;
+        }
     }
 }

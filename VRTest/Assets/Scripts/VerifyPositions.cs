@@ -37,6 +37,7 @@ public class VerifyPositions : MonoBehaviour
     // Update is called once per frame
     public void Update()
     {
+        // If the controller is within the sphere that designates beginning hand position and the unlit hand prefab exists, destroy the unlit hand prefab and create lit hand prefab
         if (unlitHand != null &&
             rightController.transform.localPosition.x > .20 &&
             rightController.transform.localPosition.x < .30 &&
@@ -50,6 +51,7 @@ public class VerifyPositions : MonoBehaviour
             litHand.transform.position = new Vector3(0f, 1.05f, -0.15f);
         }
 
+        // If the controller is not within the start sphere and the lithand prefab exists, destory the lit hand prefab and create the unlit hand prefab
         if (litHand != null &&
            (rightController.transform.localPosition.x < .20 ||
            rightController.transform.localPosition.x > .30 ||
@@ -63,6 +65,7 @@ public class VerifyPositions : MonoBehaviour
             unlitHand.transform.position = new Vector3(0f, 1.05f, -0.15f);
         }
 
+        // If the headset is within the start column and the lithead prefab does not exist, destory the unlit head prefab and create the lit head prefab
         if (unlitHead != null &&
            head.transform.localPosition.x > -.05 &&
            head.transform.localPosition.x < .05 &&
@@ -76,6 +79,7 @@ public class VerifyPositions : MonoBehaviour
             litHead.transform.position = new Vector3(0f, 1.05f, -0.2f);
         }
 
+        // If the headset is not within the start column and the lithead prefab does exist, destory the lit head prefab and create the unlit head prefab
         if (litHead != null &&
            (head.transform.localPosition.x < -.05 ||
            head.transform.localPosition.x > .05 ||

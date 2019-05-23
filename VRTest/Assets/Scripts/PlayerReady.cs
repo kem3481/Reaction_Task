@@ -11,6 +11,7 @@ public class PlayerReady : MonoBehaviour
     private GameObject beginText;
     public GameObject headColumn;
     public GameObject handSphere;
+    public GameObject invisiblehandSphere;
 
     // Vive Control GameObjects
     public SteamVR_Input_Sources handType;
@@ -38,6 +39,7 @@ public class PlayerReady : MonoBehaviour
         GO.SetActive(false);
 
         Time.timeScale = 1;
+        invisiblehandSphere.SetActive(false);
     }
 
     public void Update()
@@ -54,6 +56,7 @@ public class PlayerReady : MonoBehaviour
             {
                 headColumn.SetActive(false);
                 handSphere.SetActive(false);
+                invisiblehandSphere.SetActive(true);
                 beginText.SetActive(false);
                 GO.SetActive(true);
 
@@ -84,7 +87,7 @@ public class PlayerReady : MonoBehaviour
     // Countodwn function
     IEnumerator LoseTime()
     {
-        while (timeLeft > 0)
+         while (timeLeft > 0)
         {
             yield return new WaitForSecondsRealtime(1);
             timeLeft--;
