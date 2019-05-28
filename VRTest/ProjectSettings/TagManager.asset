@@ -24,6 +24,8 @@ TagManager:
   - Test
   - ResetText
   - BEEPBOOP
+  - Data
+  - Invisible
   layers:
   - Default
   - TransparentFX

@@ -79,7 +79,6 @@ public class Trial : MonoBehaviour
         if (other.gameObject.CompareTag("Invisible"))
         {
             print("Processing Time: " + Timer);
-            ProcessingTime = Timer;
         }
     }
 
@@ -102,11 +101,11 @@ public class Trial : MonoBehaviour
             CollisionPosition_x = rightController.transform.position.x;
             CollisionPosition_y = rightController.transform.position.y;
             print("Collision Position: " + CollisionPosition_x + ", " + CollisionPosition_y);
-            print("Collision Time: " + CollisionTime);
-            CollisionTime = Timer;
+            print("Collision Time: " + Timer);
         }
         yield return new WaitForEndOfFrame();
         Data.SetActive(true);
+
     }
 
     IEnumerator ChangeDelay()
@@ -122,8 +121,9 @@ public class Trial : MonoBehaviour
     {
         if (litTarget.activeSelf == true)
         {
-            yield return new WaitForSecondsRealtime(.01f);
+            yield return new WaitForSeconds(1f);
             Timer++;
         }
     }
+    
 }
